@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class ActivityScreen extends StatefulWidget {
   const ActivityScreen({super.key});
@@ -78,6 +79,7 @@ class _RecentActivitiesTab extends StatelessWidget {
       'elevation': '520 m',
       'avgSpeed': '24.1 km/h',
       'aiInsight': '¡Gran esfuerzo en la subida \'El Jobo\'! Tu ritmo fue constante.',
+      'imageUrl': 'https://images.unsplash.com/photo-1534787238916-9ba6764efd4f?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8Y2ljbGlzbW98ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&q=60&w=900',
     },
     {
       'id': '2',
@@ -88,6 +90,7 @@ class _RecentActivitiesTab extends StatelessWidget {
       'elevation': '890 m',
       'avgSpeed': '27.4 km/h',
       'aiInsight': 'Excelente mejora en tu cadencia. Mantén este ritmo en subidas largas.',
+      'imageUrl': 'https://images.unsplash.com/photo-1600403477955-2b8c2cfab221?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1740',
     },
     {
       'id': '3',
@@ -98,6 +101,7 @@ class _RecentActivitiesTab extends StatelessWidget {
       'elevation': '420 m',
       'avgSpeed': '25.0 km/h',
       'aiInsight': 'Buena recuperación después de tu ruta larga del sábado.',
+      'imageUrl': 'https://images.unsplash.com/photo-1516147697747-02adcafd3fda?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1844',
     },
   ];
 
@@ -122,15 +126,44 @@ class _RecentActivitiesTab extends StatelessWidget {
                 Container(
                   height: 120,
                   decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        colorScheme.surfaceContainerHighest,
-                        colorScheme.outline.withOpacity(0.2),
-                      ],
-                    ),
+                    color: colorScheme.surfaceContainerHighest,
                   ),
                   child: Stack(
+                    fit: StackFit.expand,
                     children: [
+                      CachedNetworkImage(
+                        imageUrl: activity['imageUrl'] as String,
+                        fit: BoxFit.cover,
+                        placeholder: (context, url) => Container(
+                          color: colorScheme.surfaceContainerHighest,
+                          child: const Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                        ),
+                        errorWidget: (context, url, error) => Container(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [
+                                colorScheme.surfaceContainerHighest,
+                                colorScheme.outline.withOpacity(0.2),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      // Overlay gradient for better text readability
+                      Container(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              Colors.transparent,
+                              Colors.black.withOpacity(0.7),
+                            ],
+                          ),
+                        ),
+                      ),
                       Positioned(
                         bottom: 8,
                         left: 8,
@@ -140,6 +173,13 @@ class _RecentActivitiesTab extends StatelessWidget {
                           style: theme.textTheme.titleMedium?.copyWith(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
+                            shadows: [
+                              Shadow(
+                                offset: const Offset(0, 1),
+                                blurRadius: 3,
+                                color: Colors.black.withOpacity(0.5),
+                              ),
+                            ],
                           ),
                         ),
                       ),

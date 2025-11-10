@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class RouteCard extends StatelessWidget {
   const RouteCard({
@@ -9,6 +10,7 @@ class RouteCard extends StatelessWidget {
     required this.elevation,
     required this.terrainPercent,
     this.aiWarning,
+    this.imageUrl,
   });
 
   final String name;
@@ -16,6 +18,7 @@ class RouteCard extends StatelessWidget {
   final String elevation;
   final String terrainPercent;
   final String? aiWarning;
+  final String? imageUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -30,21 +33,60 @@ class RouteCard extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // Image placeholder
+            // Image
             Container(
               height: 120,
               decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                      colors: [
-                        colorScheme.surfaceContainerHighest,
-                        colorScheme.outline.withOpacity(0.2),
-                      ],
-                    ),
+                color: colorScheme.surfaceContainerHighest,
               ),
               child: Stack(
+                fit: StackFit.expand,
                 children: [
+                  if (imageUrl != null)
+                    CachedNetworkImage(
+                      imageUrl: imageUrl!,
+                      fit: BoxFit.cover,
+                      placeholder: (context, url) => Container(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: [
+                              colorScheme.surfaceContainerHighest,
+                              colorScheme.outline.withOpacity(0.2),
+                            ],
+                          ),
+                        ),
+                        child: const Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                      ),
+                      errorWidget: (context, url, error) => Container(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: [
+                              colorScheme.surfaceContainerHighest,
+                              colorScheme.outline.withOpacity(0.2),
+                            ],
+                          ),
+                        ),
+                      ),
+                    )
+                  else
+                    Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [
+                            colorScheme.surfaceContainerHighest,
+                            colorScheme.outline.withOpacity(0.2),
+                          ],
+                        ),
+                      ),
+                    ),
                   if (aiWarning != null)
                     Positioned(
                       top: 8,
@@ -55,7 +97,7 @@ class RouteCard extends StatelessWidget {
                           vertical: 4,
                         ),
                         decoration: BoxDecoration(
-                          color: colorScheme.surfaceContainerHighest,
+                          color: colorScheme.surface.withOpacity(0.9),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: Row(
@@ -64,14 +106,14 @@ class RouteCard extends StatelessWidget {
                             Icon(
                               Icons.warning_amber_rounded,
                               size: 12,
-                              color: colorScheme.onSecondary,
+                              color: colorScheme.onSurface,
                             ),
                             const SizedBox(width: 4),
                             Flexible(
                               child: Text(
                                 aiWarning!,
                                 style: theme.textTheme.labelSmall?.copyWith(
-                                  color: colorScheme.onSecondary,
+                                  color: colorScheme.onSurface,
                                 ),
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
@@ -84,80 +126,100 @@ class RouteCard extends StatelessWidget {
                 ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(12),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    name,
-                    style: theme.textTheme.titleSmall?.copyWith(
-                      fontWeight: FontWeight.bold,
+            Flexible(
+              child: Padding(
+                padding: const EdgeInsets.all(10),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      name,
+                      style: theme.textTheme.titleSmall?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 13,
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                     ),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  const SizedBox(height: 8),
-                  Row(
-                    children: [
-                      Icon(
-                        Icons.location_on,
-                        size: 14,
-                        color: colorScheme.onSurface.withOpacity(0.6),
-                      ),
-                      const SizedBox(width: 4),
-                      Text(
-                        distance,
-                        style: theme.textTheme.bodySmall?.copyWith(
-                          color: colorScheme.onSurface.withOpacity(0.7),
+                    const SizedBox(height: 4),
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.location_on,
+                          size: 12,
+                          color: colorScheme.onSurface.withOpacity(0.6),
                         ),
-                      ),
-                      const SizedBox(width: 12),
-                      Icon(
-                        Icons.trending_up,
-                        size: 14,
-                        color: colorScheme.onSurface.withOpacity(0.6),
-                      ),
-                      const SizedBox(width: 4),
-                      Text(
-                        elevation,
-                        style: theme.textTheme.bodySmall?.copyWith(
-                          color: colorScheme.onSurface.withOpacity(0.7),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 8),
-                  Row(
-                    children: [
-                      Icon(
-                        Icons.percent,
-                        size: 14,
-                        color: colorScheme.onSurface.withOpacity(0.6),
-                      ),
-                      const SizedBox(width: 4),
-                      Expanded(
-                        child: Text(
-                          terrainPercent,
-                          style: theme.textTheme.bodySmall?.copyWith(
-                            color: colorScheme.onSurface.withOpacity(0.7),
+                        const SizedBox(width: 3),
+                        Flexible(
+                          child: Text(
+                            distance,
+                            style: theme.textTheme.bodySmall?.copyWith(
+                              color: colorScheme.onSurface.withOpacity(0.7),
+                              fontSize: 11,
+                            ),
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 12),
-                  ElevatedButton(
-                    onPressed: () => context.go('/navigation'),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: colorScheme.surfaceContainerHighest,
-                      foregroundColor: colorScheme.onSurface,
-                      minimumSize: const Size(double.infinity, 36),
+                        const SizedBox(width: 6),
+                        Icon(
+                          Icons.trending_up,
+                          size: 12,
+                          color: colorScheme.onSurface.withOpacity(0.6),
+                        ),
+                        const SizedBox(width: 3),
+                        Flexible(
+                          child: Text(
+                            elevation,
+                            style: theme.textTheme.bodySmall?.copyWith(
+                              color: colorScheme.onSurface.withOpacity(0.7),
+                              fontSize: 11,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
                     ),
-                    child: const Text('Navegar'),
-                  ),
-                ],
+                    const SizedBox(height: 4),
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.percent,
+                          size: 12,
+                          color: colorScheme.onSurface.withOpacity(0.6),
+                        ),
+                        const SizedBox(width: 3),
+                        Expanded(
+                          child: Text(
+                            terrainPercent,
+                            style: theme.textTheme.bodySmall?.copyWith(
+                              color: colorScheme.onSurface.withOpacity(0.7),
+                              fontSize: 11,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 6),
+                    SizedBox(
+                      width: double.infinity,
+                      height: 28,
+                      child: ElevatedButton(
+                        onPressed: () => context.go('/navigation'),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: colorScheme.surfaceContainerHighest,
+                          foregroundColor: colorScheme.onSurface,
+                          padding: EdgeInsets.zero,
+                          textStyle: theme.textTheme.labelSmall?.copyWith(
+                            fontSize: 11,
+                          ),
+                        ),
+                        child: const Text('Navegar'),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],

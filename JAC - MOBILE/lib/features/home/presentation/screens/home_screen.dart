@@ -133,7 +133,7 @@ class HomeScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 12),
                     SizedBox(
-                      height: 240,
+                      height: 250,
                       child: ListView(
                         scrollDirection: Axis.horizontal,
                         children: const [
@@ -143,6 +143,7 @@ class HomeScreen extends StatelessWidget {
                             elevation: '850 m',
                             terrainPercent: '60% Terracería',
                             aiWarning: 'Descenso técnico',
+                            imageUrl: 'https://images.unsplash.com/photo-1600403477955-2b8c2cfab221?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1740',
                           ),
                           SizedBox(width: 12),
                           RouteCard(
@@ -151,6 +152,7 @@ class HomeScreen extends StatelessWidget {
                             elevation: '620 m',
                             terrainPercent: '100% Pavimento',
                             aiWarning: 'Tráfico moderado',
+                            imageUrl: 'https://images.unsplash.com/photo-1516147697747-02adcafd3fda?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1844',
                           ),
                         ],
                       ),

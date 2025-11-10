@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class ActivityDetailScreen extends StatelessWidget {
   const ActivityDetailScreen({
@@ -7,6 +8,8 @@ class ActivityDetailScreen extends StatelessWidget {
   });
 
   final String activityId;
+
+  static const String _activityImageUrl = 'https://images.unsplash.com/photo-1534787238916-9ba6764efd4f?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8Y2ljbGlzbW98ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&q=60&w=900';
 
   @override
   Widget build(BuildContext context) {
@@ -23,13 +26,50 @@ class ActivityDetailScreen extends StatelessWidget {
           children: [
             Container(
               height: 200,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    colorScheme.surfaceContainerHighest,
-                    colorScheme.outline.withOpacity(0.2),
-                  ],
-                ),
+              child: Stack(
+                fit: StackFit.expand,
+                children: [
+                  CachedNetworkImage(
+                    imageUrl: _activityImageUrl,
+                    fit: BoxFit.cover,
+                    placeholder: (context, url) => Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            colorScheme.surfaceContainerHighest,
+                            colorScheme.outline.withOpacity(0.2),
+                          ],
+                        ),
+                      ),
+                      child: const Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    ),
+                    errorWidget: (context, url, error) => Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            colorScheme.surfaceContainerHighest,
+                            colorScheme.outline.withOpacity(0.2),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  // Overlay gradient for better text readability
+                  Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          Colors.transparent,
+                          Colors.black.withOpacity(0.5),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
             Padding(
