@@ -1,0 +1,7 @@
+# Data Layer - Navigation Feature
+
+Esta carpeta contiene:
+- `models/`: Modelos de datos
+- `datasources/`: Fuentes de datos (local y remoto)
+- `repositories/`: Implementaciones de repositorios
+

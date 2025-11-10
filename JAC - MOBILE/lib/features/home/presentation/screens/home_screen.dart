@@ -1,0 +1,172 @@
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../auth/presentation/bloc/auth_bloc.dart';
+import '../widgets/route_card.dart';
+import '../widgets/ai_planner_card.dart';
+import '../widgets/last_activity_card.dart';
+
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
+    return Scaffold(
+      body: BlocBuilder<AuthBloc, AuthState>(
+        builder: (context, state) {
+          final userName = state is AuthAuthenticated ? state.user.name : 'Usuario';
+
+          return CustomScrollView(
+            slivers: [
+              // App Bar
+              SliverAppBar(
+                expandedHeight: 120,
+                floating: false,
+                pinned: true,
+                backgroundColor: colorScheme.surface,
+                elevation: 0,
+                flexibleSpace: FlexibleSpaceBar(
+                  titlePadding: const EdgeInsets.only(left: 16, bottom: 12),
+                  title: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '¡Hola, $userName!',
+                        style: theme.textTheme.titleLarge?.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      Text(
+                        'Listo para rodar hoy',
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          color: colorScheme.onSurface.withOpacity(0.7),
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  ),
+                ),
+                actions: [
+                  IconButton(
+                    icon: Stack(
+                      children: [
+                        Icon(Icons.notifications_outlined, color: colorScheme.onSurface),
+                        Positioned(
+                          right: 0,
+                          top: 0,
+                          child: Container(
+                            width: 8,
+                            height: 8,
+                            decoration: BoxDecoration(
+                              color: colorScheme.surfaceContainerHighest,
+                              shape: BoxShape.circle,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    onPressed: () => context.push('/profile/notifications'),
+                  ),
+                ],
+              ),
+              // Content
+              SliverPadding(
+                padding: const EdgeInsets.all(16),
+                sliver: SliverList(
+                  delegate: SliverChildListDelegate([
+                    const SizedBox(height: 8),
+                    // AI Planner Card
+                    const AiPlannerCard(),
+                    const SizedBox(height: 16),
+                    // Quick Start
+                    Card(
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Text(
+                              'Acceso Rápido',
+                              style: theme.textTheme.titleMedium?.copyWith(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 16),
+                            ElevatedButton.icon(
+                              onPressed: () => context.go('/navigation'),
+                              icon: const Icon(Icons.play_arrow),
+                              label: const Text('INICIAR PEDALEO 🚵'),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: colorScheme.surfaceContainerHighest,
+                                foregroundColor: colorScheme.onSurface,
+                                minimumSize: const Size(double.infinity, 50),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+                    // Saved Routes
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Mis Rutas Guardadas',
+                          style: theme.textTheme.titleLarge?.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () {},
+                          child: const Text('Ver todas'),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 12),
+                    SizedBox(
+                      height: 240,
+                      child: ListView(
+                        scrollDirection: Axis.horizontal,
+                        children: const [
+                          RouteCard(
+                            name: 'Circuito Tuxtla - Terreno Mixto',
+                            distance: '60.5 km',
+                            elevation: '850 m',
+                            terrainPercent: '60% Terracería',
+                            aiWarning: 'Descenso técnico',
+                          ),
+                          SizedBox(width: 12),
+                          RouteCard(
+                            name: 'Ruta Panorámica del Cañón',
+                            distance: '45.2 km',
+                            elevation: '620 m',
+                            terrainPercent: '100% Pavimento',
+                            aiWarning: 'Tráfico moderado',
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+                    // Last Activity
+                    const LastActivityCard(),
+                    const SizedBox(height: 80), // Space for bottom nav
+                  ]),
+                ),
+              ),
+            ],
+          );
+        },
+      ),
+    );
+  }
+}
+
