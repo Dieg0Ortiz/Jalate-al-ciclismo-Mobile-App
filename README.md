@@ -59,4 +59,3 @@ JAC - MOBILE/
 ## 🛠️ Desarrollo
 
 Ver la documentación completa en `JAC - MOBILE/README.md` y `JAC - MOBILE/INSTALLATION.md`.
-

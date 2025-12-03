@@ -10,6 +10,17 @@
 *.swp
 *.swo
 *~
+*.class
+*.pyc
+.atom/
+.build/
+.buildlog/
+.history
+.svn/
+.swiftpm/
+migrate_working_dir/
+*.ipr
+*.iws
 
 # Flutter/Dart
 .dart_tool/
@@ -22,6 +33,9 @@ build/
 *.g.dart
 *.freezed.dart
 *.config.dart
+**/doc/api/
+**/ios/Flutter/.last_build_id
+/coverage/
 
 # Logs
 *.log
@@ -30,3 +44,13 @@ build/
 .env
 .env.local
 
+# Symbolication related
+app.*.symbols
+
+# Obfuscation related
+app.*.map.json
+
+# Android Studio will place build artifacts here
+/android/app/debug
+/android/app/profile
+/android/app/release
