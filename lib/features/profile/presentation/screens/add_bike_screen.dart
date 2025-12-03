@@ -96,7 +96,7 @@ class _AddBikeScreenState extends State<AddBikeScreen> {
             ),
             const SizedBox(height: 16),
             DropdownButtonFormField<BikeType>(
-              value: _selectedType,
+              initialValue: _selectedType,
               decoration: const InputDecoration(
                 labelText: 'Tipo de Bicicleta',
                 prefixIcon: Icon(Icons.category),

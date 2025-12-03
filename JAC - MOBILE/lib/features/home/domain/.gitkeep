@@ -1,7 +1,0 @@
-# Domain Layer - Home Feature
-
-Esta carpeta contiene:
-- `entities/`: Entidades del dominio de la feature Home
-- `repositories/`: Interfaces de repositorios
-- `usecases/`: Casos de uso de la feature
-

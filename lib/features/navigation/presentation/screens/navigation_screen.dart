@@ -99,7 +99,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
           return Stack(
             children: [
               // Google Maps
-              Container(
+              SizedBox(
                 height: MediaQuery.of(context).size.height * 0.6,
                 child: provider.currentLocation == null
                     ? Center(

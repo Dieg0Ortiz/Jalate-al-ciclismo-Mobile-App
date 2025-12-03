@@ -1,7 +1,0 @@
-# Domain Layer - Planner Feature
-
-Esta carpeta contiene:
-- `entities/`: Entidades del dominio de la feature Planner
-- `repositories/`: Interfaces de repositorios
-- `usecases/`: Casos de uso de la feature
-

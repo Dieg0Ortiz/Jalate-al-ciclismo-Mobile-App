@@ -1,7 +1,0 @@
-# Domain Layer - Navigation Feature
-
-Esta carpeta contiene:
-- `entities/`: Entidades del dominio de la feature Navigation
-- `repositories/`: Interfaces de repositorios
-- `usecases/`: Casos de uso de la feature
-

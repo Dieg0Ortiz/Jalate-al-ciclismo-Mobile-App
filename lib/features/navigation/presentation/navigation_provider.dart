@@ -23,8 +23,8 @@ class NavigationProvider extends ChangeNotifier {
   GoogleMapController? _mapController;
   LatLng? _currentLocation;
   LatLng? _destination;
-  Set<Marker> _markers = {};
-  Set<Polyline> _polylines = {};
+  final Set<Marker> _markers = {};
+  final Set<Polyline> _polylines = {};
   List<LatLng> _routePoints = [];
 
   // Ruta guardada

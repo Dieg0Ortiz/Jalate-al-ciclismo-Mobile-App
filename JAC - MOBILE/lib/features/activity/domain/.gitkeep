@@ -1,7 +1,0 @@
-# Domain Layer - Activity Feature
-
-Esta carpeta contiene:
-- `entities/`: Entidades del dominio de la feature Activity
-- `repositories/`: Interfaces de repositorios
-- `usecases/`: Casos de uso de la feature
-

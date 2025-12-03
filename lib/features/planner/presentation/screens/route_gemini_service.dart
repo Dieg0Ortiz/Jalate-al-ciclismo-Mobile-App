@@ -313,7 +313,7 @@ class RouteData {
       return [];
     }
 
-    double _toDouble(dynamic v) {
+    double toDouble(dynamic v) {
       if (v == null) return 0.0;
       if (v is double) return v;
       if (v is int) return v.toDouble();
@@ -326,8 +326,8 @@ class RouteData {
 
     return RouteData(
       name: json['name'] ?? 'Ruta sin nombre',
-      origin: LatLng(_toDouble(originMap['lat']), _toDouble(originMap['lng'])),
-      destination: LatLng(_toDouble(destMap['lat']), _toDouble(destMap['lng'])),
+      origin: LatLng(toDouble(originMap['lat']), toDouble(originMap['lng'])),
+      destination: LatLng(toDouble(destMap['lat']), toDouble(destMap['lng'])),
       waypoints: parseWaypoints(json['waypoints']),
       distance: json['distance'] ?? 'Distancia no especificada',
       elevation: json['elevation'] ?? 'Elevación no especificada',
