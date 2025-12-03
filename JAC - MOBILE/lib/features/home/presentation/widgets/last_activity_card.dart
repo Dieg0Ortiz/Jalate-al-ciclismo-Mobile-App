@@ -17,7 +17,7 @@ class LastActivityCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Container(
+          SizedBox(
             height: 150,
             child: Stack(
               fit: StackFit.expand,

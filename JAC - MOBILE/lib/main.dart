@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'core/di/injection.dart';
 import 'core/navigation/app_router.dart';
 import 'core/theme/app_theme.dart';
 import 'core/theme/theme_bloc.dart';
 import 'features/auth/presentation/bloc/auth_bloc.dart';
+import 'features/profile/presentation/bloc/bikes_bloc.dart';
+import 'features/profile/presentation/bloc/bikes_event.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,6 +39,9 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => getIt<ThemeBloc>(),
         ),
+        BlocProvider(
+          create: (context) => BikesBloc()..add(LoadBikes()),
+        ),
       ],
       child: BlocBuilder<ThemeBloc, ThemeState>(
         builder: (context, themeState) {
@@ -46,6 +52,15 @@ class MyApp extends StatelessWidget {
             darkTheme: AppTheme.darkTheme,
             themeMode: themeState.themeMode,
             routerConfig: AppRouter.router,
+            localizationsDelegates: const [
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: const [
+              Locale('es', 'ES'),
+              Locale('en', 'US'),
+            ],
           );
         },
       ),

@@ -105,7 +105,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     // Validación básica
     if (password.length < 6) {
       throw const ValidationException(
-          'La contraseña debe tener al menos 6 caracteres');
+          'La contraseña debe tener al menos 6 caracteres',);
     }
 
     if (!email.contains('@')) {

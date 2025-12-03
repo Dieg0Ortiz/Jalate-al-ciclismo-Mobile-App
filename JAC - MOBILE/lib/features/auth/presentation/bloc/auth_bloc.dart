@@ -18,7 +18,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     this._registerUseCase,
     this._logoutUseCase,
     this._getCurrentUserUseCase,
-  ) : super(AuthInitial()) {
+  ) : super(const AuthInitial()) {
     on<LoginRequested>(_onLoginRequested);
     on<RegisterRequested>(_onRegisterRequested);
     on<LogoutRequested>(_onLogoutRequested);
@@ -34,7 +34,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     LoginRequested event,
     Emitter<AuthState> emit,
   ) async {
-    emit(AuthLoading());
+    emit(const AuthLoading());
     final result = await _loginUseCase(
       email: event.email,
       password: event.password,
@@ -49,7 +49,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     RegisterRequested event,
     Emitter<AuthState> emit,
   ) async {
-    emit(AuthLoading());
+    emit(const AuthLoading());
     final result = await _registerUseCase(
       name: event.name,
       email: event.email,
@@ -65,11 +65,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     LogoutRequested event,
     Emitter<AuthState> emit,
   ) async {
-    emit(AuthLoading());
+    emit(const AuthLoading());
     final result = await _logoutUseCase();
     result.fold(
       (failure) => emit(AuthError(failure.message ?? 'Error al cerrar sesión')),
-      (_) => emit(AuthUnauthenticated()),
+      (_) => emit(const AuthUnauthenticated()),
     );
   }
 
@@ -77,15 +77,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     CheckAuthStatus event,
     Emitter<AuthState> emit,
   ) async {
-    emit(AuthLoading());
+    emit(const AuthLoading());
     final result = await _getCurrentUserUseCase();
     result.fold(
-      (failure) => emit(AuthUnauthenticated()),
+      (failure) => emit(const AuthUnauthenticated()),
       (user) {
         if (user != null) {
           emit(AuthAuthenticated(user));
         } else {
-          emit(AuthUnauthenticated());
+          emit(const AuthUnauthenticated());
         }
       },
     );

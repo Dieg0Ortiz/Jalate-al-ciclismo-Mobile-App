@@ -24,7 +24,7 @@ class ActivityDetailScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Container(
+            SizedBox(
               height: 200,
               child: Stack(
                 fit: StackFit.expand,
